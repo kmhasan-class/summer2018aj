@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  *
@@ -16,24 +17,16 @@ import java.sql.Statement;
  */
 public class DBConsoleApplication {
 
-    
     public DBConsoleApplication() {
-        try {
-            Connection connection = ConnectionSingleton.getConnection();
-            
-            Product product = new Product(46, "Aarong Strawberry Yogurt", 30);
+//        Product product = new Product(48, "Jinhao 159", 900);
+//        System.out.println(product);
+
+        ProductDAO productDao = new ProductDAOMySQLImplementation();
+//        productDao.insertProduct(product);
+        List<Product> productList = productDao.getAllProducts();
+        
+        for (Product product : productList)
             System.out.println(product);
-            
-            String query = String.format("INSERT INTO Product VALUES(%d, '%s', %f);",
-                    product.getProductId(), product.getProductName(), product.getUnitPrice());
-            
-            Statement statement = connection.createStatement();
-            
-            statement.executeUpdate(query);
-        } catch (SQLException sqle) {
-            System.err.println("Connection failed");
-            sqle.printStackTrace();
-        }
     }
 
     /**
@@ -42,5 +35,5 @@ public class DBConsoleApplication {
     public static void main(String[] args) {
         new DBConsoleApplication();
     }
-    
+
 }
