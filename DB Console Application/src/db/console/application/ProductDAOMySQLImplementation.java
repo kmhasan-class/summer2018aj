@@ -26,7 +26,7 @@ public class ProductDAOMySQLImplementation implements ProductDAO {
     @Override
     public void insertProduct(Product product) {
         try {
-            Connection connection = ConnectionSingleton.getConnection();
+            Connection connection = MySQLConnectionSingleton.getConnection();
             Statement statement = connection.createStatement();
             String query = String.format("INSERT INTO Product VALUES(%d, '%s', %f);",
                     product.getProductId(), product.getProductName(), product.getUnitPrice());
@@ -41,7 +41,7 @@ public class ProductDAOMySQLImplementation implements ProductDAO {
         List<Product> productList = new ArrayList<>();
         
         try {
-            Connection connection = ConnectionSingleton.getConnection();
+            Connection connection = MySQLConnectionSingleton.getConnection();
             Statement statement = connection.createStatement();
             String query = "SELECT * FROM Product";
             ResultSet resultSet = statement.executeQuery(query);

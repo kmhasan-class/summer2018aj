@@ -20,12 +20,12 @@ import java.util.logging.Logger;
  *
  * @author monirulhasan
  */
-public class ConnectionSingleton {
+public class MySQLConnectionSingleton {
     
     private static Connection connection = null;
-    private static final ConnectionSingleton INSTANCE = new ConnectionSingleton();
+    private static final MySQLConnectionSingleton INSTANCE = new MySQLConnectionSingleton();
     
-    private ConnectionSingleton() {
+    private MySQLConnectionSingleton() {
         try {
             Properties properties = new Properties();
             InputStream inputStream = new FileInputStream("resources/db.properties");
@@ -43,9 +43,9 @@ public class ConnectionSingleton {
             System.err.println("Connection failed");
             sqle.printStackTrace();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ConnectionSingleton.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MySQLConnectionSingleton.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionSingleton.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MySQLConnectionSingleton.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
