@@ -38,6 +38,7 @@ public class ProductDAOMySQLImplementation implements ProductDAO {
             RandomAccessFile input = new RandomAccessFile("query.txt", "r");
             String queryName;
             String query = "";
+            // H/W: read the queries from a properties file
             while (true) {
                 queryName = input.readLine();
                 if (queryName == null)
