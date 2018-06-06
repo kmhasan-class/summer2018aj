@@ -18,11 +18,11 @@ import java.util.List;
 public class DBConsoleApplication {
 
     public DBConsoleApplication() {
-        Product product = new Product(48, "Jinhao 159", 900);
+        Product product = new Product(49, "OnePlus 5T", 55000);
         System.out.println(product);
 
-//        ProductDAO productDao = new ProductDAOMySQLImplementation();
-        ProductDAO productDao = new ProductDAOFileImplementation();
+        ProductDAO productDao = new ProductDAOMySQLImplementation();
+//        ProductDAO productDao = new ProductDAOFileImplementation();
         productDao.insertProduct(product);
 //        List<Product> productList = productDao.getAllProducts();
         
