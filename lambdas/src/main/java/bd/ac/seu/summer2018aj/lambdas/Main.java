@@ -26,18 +26,57 @@ public class Main {
 
 //        Filter<Person> filter = new FilterAgeAtLeast30();
 //        Filter<Person> filter = new FilterFemales();
+
+/*
+        // Anonymous Inner Class
         Filter<Person> filter = new Filter<Person>() {
             @Override
             public boolean test(Person person) {
-                // Anonymous Inner Class
                 return person.getSex() == Sex.FEMALE;
             }
         };
+*/
+
+        Filter<Person> filter = person -> person.getSex() == Sex.FEMALE;
+
         Filter<String> filterString = new FilterStringTooSmall();
+
+/*
+        for (int i = 0; i < personList.size(); i++) {
+            Person person = personList.get(i);
+            if (filter.test(person))
+                System.out.println(person);
+        }
 
         for (Person person : personList)
             if (filter.test(person))
                 System.out.println(person);
+*/
+
+        // H.W.: study Lambda Expressions and Streams
+        long countOfYoungFemales = personList
+                .stream()
+                .parallel()
+                .filter(person -> person.getSex() == Sex.FEMALE)
+                .filter(person -> person.getAge() < 30)
+                .count();
+        System.out.println(countOfYoungFemales);
+
+/*
+
+        Thread thread = new Thread(
+                () -> {
+                    for (int i = 0; i < 5; i++) {
+                        System.out.println(i + " Hello");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        thread.start();
+*/
     }
 
     public static void main(String args[]) {
