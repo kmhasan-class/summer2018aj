@@ -9,6 +9,7 @@ import bd.ac.seu.summer2018aj.lambdas.model.Person;
 import bd.ac.seu.summer2018aj.lambdas.model.Sex;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
     // Inner class
@@ -61,6 +62,31 @@ public class Main {
                 .filter(person -> person.getAge() < 30)
                 .count();
         System.out.println(countOfYoungFemales);
+
+        String youngFemaleName = personList
+                .stream()
+                .parallel()
+                .filter(person -> person.getSex() == Sex.FEMALE)
+                .filter(person -> person.getAge() < 30)
+                .findFirst()
+                .orElse(new Person("NOBODY", Sex.FEMALE, 99))
+                .getName();
+        System.out.println(youngFemaleName);
+
+        List<Integer> ageList = personList
+                .stream()
+                .filter(person -> person.getAge() < 30)
+                .map(person -> person.getAge())
+                .sorted()
+                .collect(Collectors.toList());
+        System.out.println(ageList);
+
+        // Lab Task
+        // Find out the count of person for each age value
+        // Example output:
+        // Age 25: 0
+        // Age 26: 23
+        // ...
 
 /*
 
