@@ -88,6 +88,21 @@ public class Main {
         // Age 26: 23
         // ...
 
+        List<Integer> differentAgeValueList = personList
+                .stream()
+                .map(person -> person.getAge())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+        System.out.println(differentAgeValueList);
+
+        for (Integer age : differentAgeValueList) {
+            long count = personList
+                    .stream()
+                    .filter(person -> person.getAge() == age)
+                    .count();
+            System.out.println("Age " + age + ": " + count);
+        }
 /*
 
         Thread thread = new Thread(
