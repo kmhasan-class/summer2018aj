@@ -1,4 +1,4 @@
-package bd.ac.seu.aj.hibernatedemo;
+package bd.ac.seu.aj.hibernatedemo.model;
 
 public enum Sex {
     MALE,

@@ -12,6 +12,9 @@
         <!-- DB schema will be updated if needed -->
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="bd.ac.seu.aj.hibernatedemo.Product" />
+        <mapping class="bd.ac.seu.aj.hibernatedemo.model.Product" />
+        <mapping class="bd.ac.seu.aj.hibernatedemo.model.Employee" />
+        <mapping class="bd.ac.seu.aj.hibernatedemo.model.Phone" />
+        <mapping class="bd.ac.seu.aj.hibernatedemo.model.Address" />
     </session-factory>
 </hibernate-configuration>
