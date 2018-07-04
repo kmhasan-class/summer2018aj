@@ -2,6 +2,7 @@ package bd.ac.seu.aj.hibernatedemo.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,9 +12,20 @@ public class Employee extends Person {
     private long employeeId;
     private LocalDate joiningDate;
     private Rank rank;
+    @ManyToOne
+    private Department department;
 
     public Employee() {
         super();
+        department = null;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public Employee(long employeeId) {
@@ -70,6 +82,7 @@ public class Employee extends Person {
                 "employeeId=" + employeeId +
                 ", joiningDate=" + joiningDate +
                 ", rank=" + rank +
+                ", rank=" + department +
                 ", " + super.toString() +
                 '}';
     }

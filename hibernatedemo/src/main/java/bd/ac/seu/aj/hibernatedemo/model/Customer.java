@@ -1,9 +1,15 @@
 package bd.ac.seu.aj.hibernatedemo.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.util.List;
 
+@Entity
 public class Customer extends Person {
+    @Id
+    @GeneratedValue
     private long customerId;
 
     public Customer() {
