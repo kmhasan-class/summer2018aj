@@ -8,7 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(of = {"id", "name"})
-@EqualsAndHashCode(of = {"isbn"})
+@EqualsAndHashCode(of = {"id"})
 public class Author {
     private long id;
     private String name;

@@ -1,5 +1,6 @@
 package bd.ac.seu.aj.summer2018.midterm;
 
+import bd.ac.seu.aj.summer2018.midterm.model.Address;
 import bd.ac.seu.aj.summer2018.midterm.model.Author;
 import bd.ac.seu.aj.summer2018.midterm.model.Book;
 
@@ -12,6 +13,11 @@ import java.util.stream.Stream;
 public class Main {
 
     public Main() {
+        System.out.println("Hello");
+
+        Address a1 = new Address("24 Kemal Ataturk Avenue", "Dhaka", "Bangladesh", "1213");
+        System.out.println(a1);
+
         Author cormen = new Author(1, "Cormen", new ArrayList<>(), null);
         Author leiserson = new Author(2, "Leiserson", new ArrayList<>(), null);
         Author rivest = new Author(3, "Rivest", new ArrayList<>(), null);
@@ -67,6 +73,53 @@ public class Main {
         long max = bookList
                 .stream()
                 .flatMap(book -> book.getAuthorList().stream())
+                .collect(
+                        Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .values()
+                .stream()
+                .mapToLong(aLong -> aLong)
+                .max()
+                .orElse(0);
+
+        return max;
+        /*
+        List<Author> authorList = new ArrayList<>();
+        List<Integer> frequencyList = new ArrayList<>();
+
+        for (Book book : bookList) {
+            for (Author author : book.getAuthorList()) {
+                boolean found = false;
+
+                for (int i = 0; i < authorList.size(); i++) {
+                    if (authorList.get(i).equals(author)) {
+                        found = true;
+                        frequencyList.set(i, frequencyList.get(i) + 1);
+                    }
+                }
+
+                if (!found) {
+                    authorList.add(author);
+                    frequencyList.add(1);
+                }
+            }
+        }
+
+        for (int i = 0; i < authorList.size(); i++)
+            System.out.println(authorList.get(i).getName() + ": " + frequencyList.get(i));
+
+        long max = 0;
+        for (int i = 0; i < frequencyList.size(); i++)
+            if (frequencyList.get(i) > max)
+                max = frequencyList.get(i);
+
+        return max;
+        */
+    }
+    /*
+    long maxAuthoredBooksByAnyAuthor(List<Book> bookList) {
+        long max = bookList
+                .stream()
+                .flatMap(book -> book.getAuthorList().stream())
                 .map(Author::getId)
                 .collect(
                         Collectors.groupingBy(Function.identity(),
@@ -79,6 +132,7 @@ public class Main {
 
         return max;
     }
+    */
 
     public static void main(String args[]) {
         new Main();

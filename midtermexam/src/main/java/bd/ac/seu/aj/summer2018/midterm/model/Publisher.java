@@ -8,7 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(of = {"name", "address"})
-@EqualsAndHashCode(of = {"name"})
+@EqualsAndHashCode(of = {"id"})
 public class Publisher {
     public long id;
     private String name;
