@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping(value = "hello")
 public class HelloController {
     private StudentRepository studentRepository;
 
