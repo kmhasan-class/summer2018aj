@@ -1,5 +1,6 @@
 package bd.ac.seu.aj.springbootdemo;
 
+import bd.ac.seu.aj.springbootdemo.exception.InvalidRangeException;
 import bd.ac.seu.aj.springbootdemo.model.Student;
 import bd.ac.seu.aj.springbootdemo.repository.StudentRepository;
 import bd.ac.seu.aj.springbootdemo.service.StudentService;

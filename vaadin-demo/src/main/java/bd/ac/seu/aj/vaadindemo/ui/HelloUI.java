@@ -79,7 +79,7 @@ public class HelloUI extends UI {
 
         // add a binder for the CGPA
         // has to be a number in the range [0.00, 4.00]
-        
+
         saveButton.addClickListener(clickEvent -> {
             Student student = new Student();
             studentBinder.writeBeanIfValid(student);
