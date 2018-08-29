@@ -8,6 +8,10 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 //@NoArgsConstructor
@@ -15,27 +19,17 @@ import javax.persistence.Id;
 @Entity
 public class Student {
     @Id
+    @Min(1000)
+    @Max(9999)
     private long id;
+    @NotNull
+    @Size(min = 3, max = 100)
     private String name;
     private double cgpa;
 
-    public Student(long id, String name, double cgpa) {
-        if (id < 1000)
-            throw new InvalidRangeException("Student IDs must be more than 999");
-        if (id > 9999)
-            throw new InvalidRangeException("Student IDs must be less than 10000");
-
+    public Student(@Min(1000) @Max(9999) long id, String name, double cgpa) {
         this.id = id;
         this.name = name;
         this.cgpa = cgpa;
-    }
-
-    public void setCgpa(double cgpa) {
-        if (cgpa >= 0 && cgpa <= 4.0)
-            this.cgpa = cgpa;
-        else {
-            System.err.println("Invalid value for CGPA. CGPA should be within the range [0.00, 4.00].");
-            throw new InvalidRangeException("Invalid value for CGPA. CGPA should be within the range [0.00, 4.00].");
-        }
     }
 }
