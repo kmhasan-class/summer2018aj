@@ -30,7 +30,7 @@ public class StudentController {
 
     @GetMapping(value = "{id}")
     @ResponseBody
-    public Student getStudents(@PathVariable long id) {
+    public Student getStudent(@PathVariable long id) {
         return studentService.getStudent(id).get();
     }
 }

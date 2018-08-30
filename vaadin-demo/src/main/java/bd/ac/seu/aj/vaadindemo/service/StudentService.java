@@ -37,4 +37,8 @@ public class StudentService {
         List<Student> studentList = Arrays.asList(students);
         return studentList;
     }
+
+    public void saveStudent(Student student) {
+        // HW: Look into RestTemplate
+    }
 }

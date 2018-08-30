@@ -4,9 +4,12 @@ import bd.ac.seu.aj.vaadindemo.model.Student;
 import bd.ac.seu.aj.vaadindemo.service.StudentService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Binder;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
+import com.vaadin.ui.renderers.ComponentRenderer;
+import com.vaadin.ui.themes.ValoTheme;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,17 +19,11 @@ import java.util.Set;
 @Theme("valo")
 public class HelloUI extends UI {
     private StudentService studentService;
+    private StudentForm studentForm;
 
     public HelloUI(StudentService studentService) {
         super();
         this.studentService = studentService;
-    }
-
-    private boolean isNumber(String string) {
-        for (int i = 0; i < string.length(); i++)
-            if (!Character.isDigit(string.charAt(i)))
-                return false;
-        return true;
     }
 
     @Override
@@ -39,6 +36,21 @@ public class HelloUI extends UI {
         studentGrid.addColumn(Student::getId).setCaption("Student ID");
         studentGrid.addColumn(Student::getName).setCaption("Student Name");
         studentGrid.addColumn(Student::getCgpa).setCaption("CGPA");
+        studentGrid.addColumn(student -> {
+            HorizontalLayout actionBar = new HorizontalLayout();
+
+            Button editButton = new Button();
+            editButton.setIcon(VaadinIcons.EDIT);
+            editButton.addClickListener(clickEvent -> studentForm.setStudent(student));
+
+            Button deleteButton = new Button();
+            deleteButton.setIcon(VaadinIcons.CLOSE);
+
+            actionBar.addComponents(editButton, deleteButton);
+
+            return actionBar;
+        }).setRenderer(new ComponentRenderer()).setCaption("Actions");
+
         studentGrid.setSelectionMode(Grid.SelectionMode.MULTI);
 
         button.addClickListener(clickEvent -> {
@@ -53,53 +65,30 @@ public class HelloUI extends UI {
             selectedSetudentSet.stream().forEach(System.out::println);
         });
 
-        FormLayout studentForm = new FormLayout();
-        studentForm.setCaption("Student Form");
-        TextField idField = new TextField("Student ID");
-        TextField nameField = new TextField("Student Name");
-        TextField cgpaField = new TextField("CGPA");
-        Button saveButton = new Button("Save");
-        studentForm.addComponents(idField, nameField, cgpaField, saveButton);
-
-        Binder<Student> studentBinder = new Binder<>();
-        //studentBinder.bind(nameField, Student::getName, Student::setName);
-        studentBinder
-                .forField(nameField)
-                .asRequired("Names cannot be empty")
-                .withValidator(s -> s.length() >= 3, "Names should be at least 3 letters long")
-                .bind(Student::getName, Student::setName);
-
-        studentBinder
-                .forField(idField)
-                .asRequired()
-                .withValidator(s -> s.length() == 4, "Student ID should be 4 digit long")
-                .withValidator(s -> isNumber(s), "Student ID must be a number")
-                .bind(student -> student.getId() + "",
-                        (student, s) -> student.setId(Long.parseLong(s)));
-
-        // add a binder for the CGPA
-        // has to be a number in the range [0.00, 4.00]
-
-        saveButton.addClickListener(clickEvent -> {
-            Student student = new Student();
-            studentBinder.writeBeanIfValid(student);
-            Notification.show(student.toString());
-        });
-/*
-        // JavaFX Example
-        // on click of some button
-        long id = Long.parseLong(idField.getText());
-        String name = nameField.getText();
-        double cgpa = Double.parseDouble(cgpaField.getText());
-        Student student = new Student(id, name, cgpa);
-*/
-
         VerticalLayout verticalLayout = new VerticalLayout();
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponents(label, button, waiverButton);
 
+        studentForm = new StudentForm();
+
+        HorizontalLayout toolBar = new HorizontalLayout();
+
+        Button resetButton = new Button("Reset");
+        resetButton.setIcon(VaadinIcons.REFRESH);
+        resetButton.addClickListener(clickEvent -> studentForm.setStudent(new Student()));
+
+        Button saveButton = new Button("Save");
+        saveButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
+        saveButton.setIcon(VaadinIcons.FILE_ADD);
+        saveButton.addClickListener(clickEvent -> {
+            studentForm.getStudent().ifPresent(studentService::saveStudent);
+        });
+
+        toolBar.addComponents(resetButton, saveButton);
+
+
         verticalLayout.addComponent(horizontalLayout);
-        verticalLayout.addComponents(studentForm, studentGrid);
+        verticalLayout.addComponents(studentForm, toolBar, studentGrid);
 
         setContent(verticalLayout);
     }
