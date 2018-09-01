@@ -2,7 +2,12 @@ package bd.ac.seu.aj.vaadindemo.service;
 
 import bd.ac.seu.aj.vaadindemo.model.Student;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,7 +43,16 @@ public class StudentService {
         return studentList;
     }
 
-    public void saveStudent(Student student) {
-        // HW: Look into RestTemplate
+    public Student saveStudent(Student student) throws Exception {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<Student> studentHttpEntity = new HttpEntity<>(student);
+        ResponseEntity<Student> studentResponseEntity = restTemplate.exchange(
+                "http://172.17.10.2:8080/student",
+                HttpMethod.POST,
+                studentHttpEntity,
+                Student.class);
+        if (studentResponseEntity.getStatusCode() == HttpStatus.CREATED)
+            return studentResponseEntity.getBody();
+        else throw new Exception(studentResponseEntity.toString());
     }
 }

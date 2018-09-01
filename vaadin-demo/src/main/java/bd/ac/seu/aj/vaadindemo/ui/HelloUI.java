@@ -13,6 +13,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @SpringUI
@@ -81,7 +82,20 @@ public class HelloUI extends UI {
         saveButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
         saveButton.setIcon(VaadinIcons.FILE_ADD);
         saveButton.addClickListener(clickEvent -> {
-            studentForm.getStudent().ifPresent(studentService::saveStudent);
+            Optional<Student> optionalStudent = studentForm.getStudent();
+            if (optionalStudent.isPresent()) {
+                Student student = null;
+                try {
+                    student = studentService.saveStudent(optionalStudent.get());
+                    Notification.show("Created student " + student.getId());
+                } catch (Exception e) {
+                    Notification.show(e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
+                    e.printStackTrace();
+                }
+            } else {
+                Notification.show("Error in the form entry", Notification.TYPE_WARNING_MESSAGE);
+            }
+            //.ifPresent(studentService::saveStudent);
         });
 
         toolBar.addComponents(resetButton, saveButton);
