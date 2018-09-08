@@ -2,8 +2,10 @@ package bd.ac.seu.aj.springbootdemo.controller;
 
 import bd.ac.seu.aj.springbootdemo.model.Student;
 import bd.ac.seu.aj.springbootdemo.service.StudentService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +15,18 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "student")
+@AllArgsConstructor
 public class StudentController {
     private StudentService studentService;
 
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
-
     @GetMapping(value = "all")
     @ResponseBody
+    // CW: modify this method so that it returns a ResponseEntity
+    // return the list of students only if the role is Admin or Officer
+    // otherwise return a status code Unauthorized
     public List<Student> getAllStudents() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         List<Student> studentList = new ArrayList<>();
         studentService.getStudents().forEach(studentList::add);
         return studentList;
