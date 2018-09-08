@@ -1,5 +1,6 @@
 package bd.ac.seu.aj.springbootdemo.configuration;
 
+import bd.ac.seu.aj.springbootdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,6 +12,10 @@ public class SecurityConfiguration {
     public void configureGlobal(AuthenticationManagerBuilder builder) {
         try {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+            UserService userService;
+
+            //userService.getUsers().forEach();
 
             // CW: read the users, passwords and roles from the db
             // and then load them up in memory
