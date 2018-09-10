@@ -33,7 +33,8 @@ public class HelloUI extends UI {
         Button button = new Button("Click Me");
         Grid<Student> studentGrid = new Grid<>();
         studentGrid.setCaption("List of Students");
-        studentGrid.setItems(studentService.getAllStudents());
+//        studentGrid.setItems(studentService.getAllStudents());
+        studentGrid.setItems(studentService.getStudent(10));
         studentGrid.addColumn(Student::getId).setCaption("Student ID");
         studentGrid.addColumn(Student::getName).setCaption("Student Name");
         studentGrid.addColumn(Student::getCgpa).setCaption("CGPA");

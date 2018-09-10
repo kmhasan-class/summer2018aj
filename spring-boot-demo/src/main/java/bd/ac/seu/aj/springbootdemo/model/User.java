@@ -20,8 +20,8 @@ public class User implements UserDetails {
     private boolean enabled;
     private boolean locked;
 
-    @ManyToOne
-    private List<GrantedAuthority> authorityList;
+    //@ManyToOne
+    //private List<GrantedAuthority> authorityList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

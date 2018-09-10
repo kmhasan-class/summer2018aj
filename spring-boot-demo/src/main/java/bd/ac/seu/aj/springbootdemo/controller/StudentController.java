@@ -1,5 +1,6 @@
 package bd.ac.seu.aj.springbootdemo.controller;
 
+import bd.ac.seu.aj.springbootdemo.exception.ResourceDoesNotExistException;
 import bd.ac.seu.aj.springbootdemo.model.Student;
 import bd.ac.seu.aj.springbootdemo.service.StudentService;
 import lombok.AllArgsConstructor;
@@ -34,8 +35,13 @@ public class StudentController {
 
     @GetMapping(value = "{id}")
     @ResponseBody
-    public Student getStudent(@PathVariable long id) {
-        return studentService.getStudent(id).get();
+    public ResponseEntity<Student> getStudent(@PathVariable long id) {
+        System.out.println("GET request for ID " + id);
+        Optional<Student> optionalStudent = studentService.getStudent(id);
+
+        if (optionalStudent.isPresent())
+            return ResponseEntity.status(HttpStatus.OK).body(optionalStudent.get());
+        else throw new ResourceDoesNotExistException("Student not found");
     }
 
     @PostMapping
